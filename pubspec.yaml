@@ -25,6 +25,9 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/images/topbar/
+    - assets/images/catagories/
+    - assets/images/bottombar/
 
   # fonts:
   #   - family: Schyler
