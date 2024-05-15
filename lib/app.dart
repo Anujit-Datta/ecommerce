@@ -12,6 +12,7 @@ class ECommerce extends StatelessWidget {
     return GetMaterialApp(
       title: 'E-Commerce',
       home: const SplashScreen(),
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorSchemeSeed: AppColors.primaryColor,
         progressIndicatorTheme: const ProgressIndicatorThemeData(

@@ -3,6 +3,8 @@ import 'package:ecommerce/presentation/widgets/logo.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../utils/asset_paths.dart';
+
 class EmailVerifyScreen extends StatefulWidget {
   const EmailVerifyScreen({super.key});
 
@@ -23,7 +25,7 @@ class _EmailVerifyScreenState extends State<EmailVerifyScreen> {
           child: Column(
             children: [
               const Spacer(),
-              Logo(scale: sizes.height*0.12,),
+              Logo(path: AssetPaths.appLogo,scale: sizes.height*0.12,),
               SizedBox(height: sizes.height*0.03,),
               Text('Welcome Back', style: textTheme.titleLarge,),
               SizedBox(height: sizes.height*0.01,),

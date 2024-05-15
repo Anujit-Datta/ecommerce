@@ -4,15 +4,17 @@ import 'package:flutter_svg/svg.dart';
 
 class Logo extends StatelessWidget {
   final double scale;
+  final String path;
   const Logo({
     super.key,
     required this.scale,
+    required this.path,
   });
 
   @override
   Widget build(BuildContext context) {
     return SvgPicture.asset(
-      AssetPaths.appLogo,
+      path,
       height: scale,
       fit: BoxFit.fitHeight,
     );

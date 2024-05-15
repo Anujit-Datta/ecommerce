@@ -1,7 +1,10 @@
+import 'package:ecommerce/presentation/screens/home_screen.dart';
 import 'package:ecommerce/presentation/screens/otp_verify_screen.dart';
 import 'package:ecommerce/presentation/widgets/logo.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import '../utils/asset_paths.dart';
 
 class CompleteProfileScreen extends StatefulWidget {
   const CompleteProfileScreen({super.key});
@@ -27,7 +30,7 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
         child: ListView(
           children: [
             //const Spacer(),
-            Logo(scale: sizes.height*0.12,),
+            Logo(path: AssetPaths.appLogo,scale: sizes.height*0.12,),
             SizedBox(height: sizes.height*0.03,),
             Center(child: Text('Complete Profile', style: textTheme.titleLarge,)),
             SizedBox(height: sizes.height*0.01,),
@@ -36,7 +39,7 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
             _completeProfileForm(sizes),
             ElevatedButton(
               onPressed: (){
-                Get.to(() => const OTPVerifyScreen());
+                Get.to(() => const HomeScreen());
               },
               child: const Text('Next',),
             ),

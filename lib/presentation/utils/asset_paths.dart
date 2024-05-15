@@ -5,4 +5,5 @@ class AssetPaths{
   static const appLogo = '$_imagesPath/logo.svg';
   static const navBarLogo = '$_imagesPath/logo_nav.svg';
 
+
 }

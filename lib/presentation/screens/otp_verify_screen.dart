@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
+import '../utils/asset_paths.dart';
+
 class OTPVerifyScreen extends StatefulWidget {
   const OTPVerifyScreen({super.key});
 
@@ -36,7 +38,7 @@ class _OTPVerifyScreenState extends State<OTPVerifyScreen> {
           child: Column(
             children: [
               const Spacer(),
-              Logo(scale: sizes.height*0.12,),
+              Logo(path: AssetPaths.appLogo,scale: sizes.height*0.12,),
               SizedBox(height: sizes.height*0.03,),
               Text('Enter OTP Code', style: textTheme.titleLarge,),
               SizedBox(height: sizes.height*0.01,),

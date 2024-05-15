@@ -1,4 +1,5 @@
 import 'package:ecommerce/presentation/screens/email_verify_screen.dart';
+import 'package:ecommerce/presentation/utils/asset_paths.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ecommerce/presentation/widgets/logo.dart';
@@ -26,6 +27,7 @@ class _SplashScreenState extends State<SplashScreen> {
           children: [
             const Spacer(),
             Logo(
+              path: AssetPaths.appLogo,
               scale: sizes.height*0.2
             ),
             const Spacer(),
