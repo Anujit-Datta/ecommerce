@@ -4,6 +4,7 @@ class AssetPaths{
   static const _topbarPath='$_imagesPath/topbar';
 
   static const appLogo = '$_imagesPath/logo.svg';
+  static const magnifierLogo = '$_imagesPath/magnifierOfSearchBar.svg';
 
   static const navBarLogo = '$_topbarPath/logo_nav.svg';
   static const navBarPersonLogo = '$_topbarPath/person.svg';
