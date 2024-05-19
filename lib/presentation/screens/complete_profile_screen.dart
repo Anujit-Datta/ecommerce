@@ -25,35 +25,34 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
     final sizes=MediaQuery.sizeOf(context);
     final textTheme=Theme.of(context).textTheme;
     return Scaffold(
-      body: Padding(
-        padding: EdgeInsets.all(sizes.height*0.05),
-        child: ListView(
-          children: [
-            //const Spacer(),
-            Logo(path: AssetPaths.appLogo,scale: sizes.height*0.12,),
-            SizedBox(height: sizes.height*0.03,),
-            Center(child: Text('Complete Profile', style: textTheme.titleLarge,)),
-            SizedBox(height: sizes.height*0.01,),
-            Center(child: Text('Get started with us with your details', style: textTheme.titleSmall,)),
-            SizedBox(height: sizes.height*0.02,),
-            _completeProfileForm(sizes),
-            ElevatedButton(
-              onPressed: (){
-                Get.to(() => const HomeScreen());
-              },
-              child: const Text('Next',),
-            ),
-            // const Spacer(),
-            // const Spacer(),
-            // const Spacer(),
-            // const Spacer()
-          ],
+      body: Center(
+        child: Padding(
+          padding: EdgeInsets.all(sizes.height*0.05),
+          child: ListView(
+            children:[
+              const Spacer(),
+              Logo(path: AssetPaths.appLogo,scale: sizes.height*0.12,),
+              SizedBox(height: sizes.height*0.03,),
+              Center(child: Text('Complete Profile', style: textTheme.titleLarge,)),
+              SizedBox(height: sizes.height*0.01,),
+              Center(child: Text('Get started with us with your details', style: textTheme.titleSmall,)),
+              SizedBox(height: sizes.height*0.02,),
+              _completeProfileForm(sizes),
+              ElevatedButton(
+                onPressed: (){
+                  Get.to(() => const HomeScreen());
+                },
+                child: const Text('Next',),
+              ),
+              const Spacer()
+            ],
+          ),
         ),
       ),
     );
   }
 
-  Form _completeProfileForm(Size sizes) {
+  Widget _completeProfileForm(Size sizes) {
     return Form(
             key: _formKey,
             child: Column(

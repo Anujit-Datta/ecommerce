@@ -21,8 +21,17 @@ class ECommerce extends StatelessWidget {
         textTheme: _textTheme(),
         inputDecorationTheme: _inputDecorationTheme(),
         elevatedButtonTheme: _elevatedButtonThemeData(),
+        textButtonTheme: _textButtonThemeData()
       ),
     );
+  }
+
+  TextButtonThemeData _textButtonThemeData() {
+    return TextButtonThemeData(
+        style: TextButton.styleFrom(
+          foregroundColor: AppColors.primaryColor,
+        )
+      );
   }
 
   ElevatedButtonThemeData _elevatedButtonThemeData() {
@@ -61,7 +70,6 @@ class ECommerce extends StatelessWidget {
   InputDecorationTheme _inputDecorationTheme() {
     return InputDecorationTheme(
       contentPadding: const EdgeInsets.symmetric(horizontal: 16,vertical: 8),
-
       border: _outlineInputBorder(),
       enabledBorder: _outlineInputBorder(),
       disabledBorder: _outlineInputBorder(),

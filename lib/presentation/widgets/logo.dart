@@ -16,7 +16,8 @@ class Logo extends StatelessWidget {
     return SvgPicture.asset(
       path,
       height: scale,
-      fit: BoxFit.fitHeight,
+      width: scale,
+
     );
   }
 }
