@@ -1,3 +1,4 @@
+import 'package:ecommerce/controller_binders.dart';
 import 'package:ecommerce/presentation/screens/splash_screen.dart';
 import 'package:ecommerce/presentation/utils/app_colors.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,7 @@ class ECommerce extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: 'E-Commerce',
+      initialBinding: ControllerBinders(),
       home: const SplashScreen(),
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
@@ -18,10 +20,13 @@ class ECommerce extends StatelessWidget {
         progressIndicatorTheme: const ProgressIndicatorThemeData(
           color: AppColors.primaryColor,
         ),
+        appBarTheme: const AppBarTheme(
+          centerTitle: false,
+        ),
         textTheme: _textTheme(),
         inputDecorationTheme: _inputDecorationTheme(),
         elevatedButtonTheme: _elevatedButtonThemeData(),
-        textButtonTheme: _textButtonThemeData()
+        textButtonTheme: _textButtonThemeData(),
       ),
     );
   }

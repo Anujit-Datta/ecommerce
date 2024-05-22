@@ -1,3 +1,4 @@
+import 'package:ecommerce/presentation/screens/bottom_nav_layout.dart';
 import 'package:ecommerce/presentation/screens/home_screen.dart';
 import 'package:ecommerce/presentation/screens/otp_verify_screen.dart';
 import 'package:ecommerce/presentation/widgets/logo.dart';
@@ -40,7 +41,7 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
               _completeProfileForm(sizes),
               ElevatedButton(
                 onPressed: (){
-                  Get.to(() => const HomeScreen());
+                  Get.to(() => BottomNavLayout());
                 },
                 child: const Text('Next',),
               ),

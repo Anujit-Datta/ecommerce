@@ -1,5 +1,6 @@
 import 'package:ecommerce/presentation/utils/app_colors.dart';
 import 'package:ecommerce/presentation/utils/asset_paths.dart';
+import 'package:ecommerce/presentation/widgets/category_view.dart';
 import 'package:ecommerce/presentation/widgets/product_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
@@ -35,7 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: buildAppBar(sizes),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.only(left: 16,right: 16,top: 8),
         child: SingleChildScrollView(
           child: Column(
             children: [
@@ -100,7 +101,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   AppBar buildAppBar(Size sizes) {
     return AppBar(
-      centerTitle: false,
       automaticallyImplyLeading: false,
       title: Logo(
         path: AssetPaths.navBarLogo,
@@ -155,32 +155,7 @@ class CategoriesHorizontalScroll extends StatelessWidget {
         itemCount: 4,
         scrollDirection: Axis.horizontal,
         itemBuilder: (context,index){
-          return Column(
-            children: [
-              Container(
-                height: 70,
-                width: 70,
-                decoration: BoxDecoration(
-                  color: AppColors.primaryColor.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(10)
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Logo(
-                    path: categoryImages[index],
-                    scale: 50,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 10,),
-              Text(
-                categoryNames[index],
-                style: const TextStyle(
-                  color: AppColors.primaryColor,
-                ),
-              ),
-            ],
-          );
+          return CategoryView(categoryImage: categoryImages[index], categoryName: categoryNames[index]);
         },
         separatorBuilder: (context,index){
           return const SizedBox(width: 28,);
@@ -189,6 +164,7 @@ class CategoriesHorizontalScroll extends StatelessWidget {
     );
   }
 }
+
 
 class SectionHeader extends StatelessWidget {
   const SectionHeader({
