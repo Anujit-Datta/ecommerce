@@ -22,7 +22,7 @@ class ProductCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: sizes.width*0.35,
+      width: sizes.width*0.3,
       child: Card(
         elevation: 3,
         surfaceTintColor: Colors.transparent,
@@ -30,28 +30,34 @@ class ProductCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(10),
             borderSide: BorderSide.none
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ProductImage(sizes: sizes, imageLink: imageLink),
-            ProductTitle(productName: productName),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  ProductPrice(price: price),
-                  Row(
+        child: SizedBox(
+          height: sizes.height*0.15,
+          width: sizes.width*0.27,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ProductImage(sizes: sizes, imageLink: imageLink),
+              ProductTitle(productName: productName),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: sizes.width*0.01),
+                child: SizedBox(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      ProductRating(rating: rating),
-                      SizedBox(width: sizes.width*0.01,),
-                      ProductWishlisted(isWishListed: isWishListed),
+                      ProductPrice(price: price),
+                      Row(
+                        children: [
+                          ProductRating(rating: rating),
+                          SizedBox(width: sizes.width*0.01,),
+                          ProductWishlisted(isWishListed: isWishListed),
+                        ],
+                      )
                     ],
-                  )
-                ],
-              ),
-            )
-          ],
+                  ),
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -99,14 +105,14 @@ class ProductRating extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Icon(
+        const Icon(
           Icons.star,
           color: Colors.yellowAccent,
           size: 13,
         ),
         Text(
           rating,
-          style: TextStyle(
+          style: const TextStyle(
               color: Colors.black54,
               fontSize: 11
           ),
@@ -151,13 +157,13 @@ class ProductTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 4),
+    return const Padding(
+      padding: EdgeInsets.symmetric(horizontal: 8,vertical: 4),
       child: Text(
-        'shoihde boidhnfbio dbgsdf se',
+        'product title dkfgiu dfvoidf fuoihdvb',
         overflow: TextOverflow.ellipsis,
         maxLines: 2,
-        style: const TextStyle(
+        style: TextStyle(
             fontSize: 12,
             fontWeight: FontWeight.w500,
             color: Colors.black54
@@ -181,14 +187,15 @@ class ProductImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: sizes.height*0.13,
-      width: double.maxFinite,
       decoration: BoxDecoration(
         color: AppColors.primaryColor.withOpacity(0.1),
       ),
-      child: Image.asset(
-        imageLink,
-        fit: BoxFit.fill,
+      child: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: Image.asset(
+          'assets/images/shoe.png',
+          fit: BoxFit.cover,
+        ),
       ),
     );
   }

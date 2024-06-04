@@ -14,16 +14,16 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final TextEditingController _searchTEController=TextEditingController();
-  List carouselItems=[1,2,3,4,5];
-  String title='Section Title';
-  String productName='Product Name';
-  String rating='4.8';
-  double price=100;
-  bool isFavourite=false;
-  String imageLink='assets/images/shoe.png';
-  List categoryNames=['Electronics','Food','Fashion','Furniture'];
-  List categoryImages=[
+  final TextEditingController _searchTEController = TextEditingController();
+  List carouselItems = [1, 2, 3, 4, 5];
+  String title = 'Section Title';
+  String productName = 'Product Name';
+  String rating = '4.8';
+  double price = 100;
+  bool isFavourite = false;
+  String imageLink = 'assets/images/shoe.png';
+  List categoryNames = ['Electronics', 'Food', 'Fashion', 'Furniture'];
+  List categoryImages = [
     AssetPaths.electronicsCategoryLogo,
     AssetPaths.foodCategoryLogo,
     AssetPaths.fashionCategoryLogo,
@@ -36,67 +36,71 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: buildAppBar(sizes),
       body: Padding(
-        padding: const EdgeInsets.only(left: 16,right: 16,top: 8),
+        padding: const EdgeInsets.only(left: 16, right: 16, top: 8),
         child: SingleChildScrollView(
           child: Column(
             children: [
-              SearchBar(searchTEController: _searchTEController,),
-              const SizedBox(height: 16,),
+              SearchBar(
+                searchTEController: _searchTEController,
+              ),
+              const SizedBox(
+                height: 16,
+              ),
               PromotionalCarousel(carouselItems: carouselItems),
-              const SizedBox(height: 8,),
+              const SizedBox(
+                height: 8,
+              ),
               const SectionHeader(title: 'All Categories'),
-              CategoriesHorizontalScroll(categoryImages: categoryImages, categoryNames: categoryNames,sizes: sizes,),
-              const SizedBox(height: 8,),
+              CategoriesHorizontalScroll(
+                categoryImages: categoryImages,
+                categoryNames: categoryNames,
+                sizes: sizes,
+              ),
+              const SizedBox(
+                height: 8,
+              ),
               const SectionHeader(title: 'Popular'),
-              SizedBox(
-                height: sizes.height*0.215,
-                child: ListView.separated(
-                  itemCount: 4,
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context,index){
-                    return ProductCard(sizes: sizes, imageLink: imageLink, productName: productName, price: price, rating: rating,isWishListed: false,);
-                  },
-                  separatorBuilder: (context,_){
-                    return const SizedBox(width: 5,);
-                  },
-                ),
+              popularSection(sizes),
+              const SizedBox(
+                height: 8,
               ),
-              const SizedBox(height: 8,),
               const SectionHeader(title: 'Spacial'),
-              SizedBox(
-                height: 200,
-                child: ListView.separated(
-                  itemCount: 4,
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context,index){
-                    return ProductCard(sizes: sizes, imageLink: imageLink, productName: productName, price: price, rating: rating,isWishListed: false,);
-                  },
-                  separatorBuilder: (context,_){
-                    return const SizedBox(width: 5,);
-                  },
-                ),
+              popularSection(sizes),
+              const SizedBox(
+                height: 8,
               ),
-              const SizedBox(height: 8,),
               const SectionHeader(title: 'New'),
-              SizedBox(
-                height: 200,
-                child: ListView.separated(
-                  itemCount: 4,
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context,index){
-                    return ProductCard(sizes: sizes, imageLink: imageLink, productName: productName, price: price, rating: rating,isWishListed: false,);
-                  },
-                  separatorBuilder: (context,_){
-                    return const SizedBox(width: 5,);
-                  },
-                ),
-              ),
-          
+              popularSection(sizes),
             ],
           ),
         ),
       ),
     );
+  }
+
+  SizedBox popularSection(Size sizes) {
+    return SizedBox(
+              height: sizes.height * 0.185,
+              child: ListView.separated(
+                itemCount: 4,
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (context, index) {
+                  return ProductCard(
+                    sizes: sizes,
+                    imageLink: imageLink,
+                    productName: productName,
+                    price: price,
+                    rating: rating,
+                    isWishListed: false,
+                  );
+                },
+                separatorBuilder: (context, _) {
+                  return const SizedBox(
+                    width: 5,
+                  );
+                },
+              ),
+            );
   }
 
   AppBar buildAppBar(Size sizes) {
@@ -133,7 +137,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-
 class CategoriesHorizontalScroll extends StatelessWidget {
   const CategoriesHorizontalScroll({
     super.key,
@@ -149,22 +152,25 @@ class CategoriesHorizontalScroll extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: sizes.height*0.113,
+      height: sizes.height * 0.113,
       width: double.maxFinite,
       child: ListView.separated(
         itemCount: 4,
         scrollDirection: Axis.horizontal,
-        itemBuilder: (context,index){
-          return CategoryView(categoryImage: categoryImages[index], categoryName: categoryNames[index]);
+        itemBuilder: (context, index) {
+          return CategoryView(
+              categoryImage: categoryImages[index],
+              categoryName: categoryNames[index]);
         },
-        separatorBuilder: (context,index){
-          return const SizedBox(width: 28,);
+        separatorBuilder: (context, index) {
+          return const SizedBox(
+            width: 28,
+          );
         },
       ),
     );
   }
 }
-
 
 class SectionHeader extends StatelessWidget {
   const SectionHeader({
@@ -181,16 +187,13 @@ class SectionHeader extends StatelessWidget {
       children: [
         Text(
           title,
-          style: const TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold
-          ),
+          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
         TextButton(
-          onPressed: (){
-
-          },
-          child: const Text('See All',),
+          onPressed: () {},
+          child: const Text(
+            'See All',
+          ),
         ),
       ],
     );
@@ -224,13 +227,20 @@ class PromotionalCarousel extends StatelessWidget {
           builder: (BuildContext context) {
             return Container(
                 width: double.maxFinite,
-                margin: const EdgeInsets.only(bottom: 32,),
+                margin: const EdgeInsets.only(
+                  bottom: 32,
+                ),
                 decoration: BoxDecoration(
                   color: AppColors.primaryColor,
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child: Center(child: Text('Item $i', style: const TextStyle(fontSize: 30.0,),))
-            );
+                child: Center(
+                    child: Text(
+                  'Item $i',
+                  style: const TextStyle(
+                    fontSize: 30.0,
+                  ),
+                )));
           },
         );
       }).toList(),
@@ -253,22 +263,25 @@ class SearchBar extends StatelessWidget {
       decoration: InputDecoration(
         fillColor: Colors.grey.withOpacity(0.15),
         filled: true,
-        border: OutlineInputBorder(borderSide: BorderSide.none,borderRadius: BorderRadius.circular(8)),
-        enabledBorder:
-        OutlineInputBorder(borderSide: BorderSide.none,borderRadius: BorderRadius.circular(8)),
-        disabledBorder:
-        OutlineInputBorder(borderSide: BorderSide.none,borderRadius: BorderRadius.circular(8)),
-        focusedBorder:
-        OutlineInputBorder(borderSide: BorderSide.none,borderRadius: BorderRadius.circular(8)),
+        border: OutlineInputBorder(
+            borderSide: BorderSide.none,
+            borderRadius: BorderRadius.circular(8)),
+        enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide.none,
+            borderRadius: BorderRadius.circular(8)),
+        disabledBorder: OutlineInputBorder(
+            borderSide: BorderSide.none,
+            borderRadius: BorderRadius.circular(8)),
+        focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide.none,
+            borderRadius: BorderRadius.circular(8)),
         prefixIcon: const Icon(
           Icons.search,
           size: 30,
           color: Colors.black45,
         ),
         hintText: 'Search',
-        hintStyle: TextStyle(
-            color: Colors.grey.withOpacity(0.5)
-        ),
+        hintStyle: TextStyle(color: Colors.grey.withOpacity(0.5)),
       ),
     );
   }

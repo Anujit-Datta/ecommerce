@@ -1,16 +1,17 @@
-import 'package:ecommerce/presentation/utils/asset_paths.dart';
 import 'package:ecommerce/presentation/widgets/product_card.dart';
 import 'package:flutter/material.dart';
 
-class WishListScreen extends StatelessWidget {
-  const WishListScreen({super.key});
+class CategoryWiseProductList extends StatelessWidget {
+  const CategoryWiseProductList({super.key, required this.category});
+
+  final String category;
 
   @override
   Widget build(BuildContext context) {
     final sizes=MediaQuery.sizeOf(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('WishList'),
+        title: Text(category),
       ),
       body: Column(
         children: [
