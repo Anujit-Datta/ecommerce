@@ -59,12 +59,17 @@ class ECommerce extends StatelessWidget {
     return const TextTheme(
       titleLarge: TextStyle(
         fontSize: 28,
-        fontWeight: FontWeight.w400,
-        color: Color(0xff505050),
+        fontWeight: FontWeight.w500,
+        color: Colors.black54,
+      ),
+      titleMedium: TextStyle(
+        fontSize: 18,
+        fontWeight: FontWeight.w500,
+        color: Colors.black54,
       ),
       titleSmall: TextStyle(
         fontWeight: FontWeight.w300,
-        color: Colors.grey
+        color: Colors.black54
       ),
       labelSmall: TextStyle(
         color: AppColors.primaryColor,

@@ -1,4 +1,6 @@
 import 'package:ecommerce/presentation/controllers/bottom_nav_bar_controller.dart';
+import 'package:ecommerce/presentation/controllers/categories_list_controller.dart';
+import 'package:ecommerce/presentation/controllers/promotional_slider_controller.dart';
 import 'package:ecommerce/presentation/screens/cart_screen.dart';
 import 'package:ecommerce/presentation/screens/categories_screen.dart';
 import 'package:ecommerce/presentation/screens/home_screen.dart';
@@ -7,8 +9,21 @@ import 'package:ecommerce/presentation/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class BottomNavLayout extends StatelessWidget {
+class BottomNavLayout extends StatefulWidget {
   BottomNavLayout({super.key});
+
+  @override
+  State<BottomNavLayout> createState() => _BottomNavLayoutState();
+}
+
+class _BottomNavLayoutState extends State<BottomNavLayout> {
+  @override
+  void initState() {
+    super.initState();
+    Get.find<PromotionalSliderController>().getPromotionalSliderList();
+    Get.find<CategoriesListController>().getCategoriesList();
+  }
+
   final BottomNavBarController _bottomNavBarController=Get.find<BottomNavBarController>();
 
   final List<Widget> _screens=const [

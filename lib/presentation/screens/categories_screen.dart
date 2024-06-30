@@ -1,6 +1,6 @@
-import 'package:ecommerce/presentation/screens/category_wise_product_list.dart';
-import 'package:ecommerce/presentation/utils/asset_paths.dart';
+import 'package:ecommerce/presentation/controllers/categories_list_controller.dart';
 import 'package:ecommerce/presentation/widgets/category_view.dart';
+import 'package:ecommerce/presentation/widgets/center_circular_progress_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -18,25 +18,32 @@ class CategoriesScreen extends StatelessWidget {
           Expanded(
             child: Padding(
               padding: const EdgeInsets.only(top: 8.0,left: 16,right: 16),
-              child: GridView.builder(
-                itemCount: 16,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 4,
-                  crossAxisSpacing: 10,
-                  childAspectRatio: 0.75,
-                  mainAxisSpacing: 10,
-                ),
-                itemBuilder: (context, index) {
-                  return InkWell(
-                    onTap: (){
-                      Get.to(() => const CategoryWiseProductList(category: 'Electronics'));
+              child: GetBuilder<CategoriesListController>(
+                builder: (controller) {
+                  return RefreshIndicator(
+                    onRefresh: ()async{
+                      await controller.getCategoriesList();
                     },
-                    child: const CategoryView(
-                      categoryImage: AssetPaths.electronicsCategoryLogo,
-                      categoryName: 'Electronics',
+                    child: Visibility(
+                      visible: !controller.inProgress,
+                      replacement: const CenterLoader(),
+                      child: GridView.builder(
+                        itemCount: controller.categoriesList.length,
+                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 4,
+                          crossAxisSpacing: 10,
+                          childAspectRatio: 0.75,
+                          mainAxisSpacing: 10,
+                        ),
+                        itemBuilder: (context, index) {
+                          return CategoryView(
+                            category: controller.categoriesList[index],
+                          );
+                        },
+                      ),
                     ),
                   );
-                },
+                }
               ),
             ),
           ),

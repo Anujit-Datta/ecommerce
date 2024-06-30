@@ -1,10 +1,18 @@
 import 'package:ecommerce/presentation/controllers/bottom_nav_bar_controller.dart';
+import 'package:ecommerce/presentation/controllers/categories_list_controller.dart';
+import 'package:ecommerce/presentation/controllers/popular_products_controller.dart';
+import 'package:ecommerce/presentation/controllers/product_list_by_category_controller.dart';
+import 'package:ecommerce/presentation/controllers/promotional_slider_controller.dart';
 import 'package:get/get.dart';
 
 class ControllerBinders extends Bindings{
   @override
   void dependencies() {
     Get.put(BottomNavBarController());
+    Get.put(PromotionalSliderController());
+    Get.put(CategoriesListController());
+    Get.put(ProductListByCategoryController());
+    Get.put(PopularProductsController());
   }
 
 }

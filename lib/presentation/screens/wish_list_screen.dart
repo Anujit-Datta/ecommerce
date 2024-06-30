@@ -1,4 +1,4 @@
-import 'package:ecommerce/presentation/utils/asset_paths.dart';
+import 'package:ecommerce/data/models/product_model.dart';
 import 'package:ecommerce/presentation/widgets/product_card.dart';
 import 'package:flutter/material.dart';
 
@@ -22,11 +22,11 @@ class WishListScreen extends StatelessWidget {
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 3,
                   crossAxisSpacing: 10,
-                  childAspectRatio: 0.75,
+                  childAspectRatio: 0.73,
                   mainAxisSpacing: 10,
                 ),
                 itemBuilder: (context, index) {
-                  return ProductCard(sizes: sizes, imageLink: 'assets/images/shoe.png', productName: 'Name', price: 100, rating: '4.7', isWishListed: true);
+                  return ProductCard(sizes: sizes, product: Product(),);
                 },
               ),
             ),

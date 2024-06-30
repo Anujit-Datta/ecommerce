@@ -1,10 +1,20 @@
+import 'package:ecommerce/data/models/category.dart';
+import 'package:ecommerce/data/models/product_model.dart';
+import 'package:ecommerce/data/models/promotional_slider_data_model.dart';
+import 'package:ecommerce/presentation/controllers/bottom_nav_bar_controller.dart';
+import 'package:ecommerce/presentation/controllers/categories_list_controller.dart';
+import 'package:ecommerce/presentation/controllers/popular_products_controller.dart';
+import 'package:ecommerce/presentation/controllers/promotional_slider_controller.dart';
 import 'package:ecommerce/presentation/utils/app_colors.dart';
 import 'package:ecommerce/presentation/utils/asset_paths.dart';
+import 'package:ecommerce/presentation/widgets/CachedImage.dart';
 import 'package:ecommerce/presentation/widgets/category_view.dart';
+import 'package:ecommerce/presentation/widgets/center_circular_progress_indicator.dart';
 import 'package:ecommerce/presentation/widgets/product_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
 import '../widgets/logo.dart';
+import 'package:get/get.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -46,31 +56,46 @@ class _HomeScreenState extends State<HomeScreen> {
               const SizedBox(
                 height: 16,
               ),
-              PromotionalCarousel(carouselItems: carouselItems),
+              GetBuilder<PromotionalSliderController>(
+                builder: (controller) {
+                  return Visibility(
+                    visible: !controller.inProgress,
+                    replacement: const CenterLoader(),
+                    child: PromotionalCarousel(carousalItems: controller.promotionalSliderList,sizes: sizes),
+                  );
+                }
+              ),
               const SizedBox(
                 height: 8,
               ),
               const SectionHeader(title: 'All Categories'),
-              CategoriesHorizontalScroll(
-                categoryImages: categoryImages,
-                categoryNames: categoryNames,
-                sizes: sizes,
+              GetBuilder<CategoriesListController>(
+                builder: (controller) {
+                  return CategoriesHorizontalScroll(
+                    categoriesList: controller.categoriesList,
+                    sizes: sizes,
+                  );
+                }
               ),
               const SizedBox(
                 height: 8,
               ),
               const SectionHeader(title: 'Popular'),
-              popularSection(sizes),
+              GetBuilder<PopularProductsController>(
+                builder: (controller) {
+                  return productsHorizontalScroll(sizes,controller);
+                }
+              ),
               const SizedBox(
                 height: 8,
               ),
               const SectionHeader(title: 'Spacial'),
-              popularSection(sizes),
+              //productsHorizontalScroll(sizes),
               const SizedBox(
                 height: 8,
               ),
               const SectionHeader(title: 'New'),
-              popularSection(sizes),
+              //productsHorizontalScroll(sizes),
             ],
           ),
         ),
@@ -78,29 +103,25 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  SizedBox popularSection(Size sizes) {
+  Widget productsHorizontalScroll(Size sizes,GetxController controller) {
     return SizedBox(
-              height: sizes.height * 0.185,
-              child: ListView.separated(
-                itemCount: 4,
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) {
-                  return ProductCard(
-                    sizes: sizes,
-                    imageLink: imageLink,
-                    productName: productName,
-                    price: price,
-                    rating: rating,
-                    isWishListed: false,
-                  );
-                },
-                separatorBuilder: (context, _) {
-                  return const SizedBox(
-                    width: 5,
-                  );
-                },
-              ),
-            );
+      height: sizes.height * 0.185,
+      child: ListView.separated(
+        itemCount: 4,
+        scrollDirection: Axis.horizontal,
+        itemBuilder: (context, index) {
+          return ProductCard(
+            sizes: sizes,
+            product: Product(),
+          );
+        },
+        separatorBuilder: (context, _) {
+          return const SizedBox(
+            width: 5,
+          );
+        },
+      ),
+    );
   }
 
   AppBar buildAppBar(Size sizes) {
@@ -140,13 +161,11 @@ class _HomeScreenState extends State<HomeScreen> {
 class CategoriesHorizontalScroll extends StatelessWidget {
   const CategoriesHorizontalScroll({
     super.key,
-    required this.categoryImages,
-    required this.categoryNames,
+    required this.categoriesList,
     required this.sizes,
   });
 
-  final List categoryImages;
-  final List categoryNames;
+  final List<Category> categoriesList;
   final Size sizes;
 
   @override
@@ -159,8 +178,8 @@ class CategoriesHorizontalScroll extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {
           return CategoryView(
-              categoryImage: categoryImages[index],
-              categoryName: categoryNames[index]);
+              category: categoriesList[index],
+          );
         },
         separatorBuilder: (context, index) {
           return const SizedBox(
@@ -190,7 +209,11 @@ class SectionHeader extends StatelessWidget {
           style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
         TextButton(
-          onPressed: () {},
+          onPressed: () {
+            if(title=='All Categories'){
+              Get.find<BottomNavBarController>().changeSelectedItem(1);
+            }
+          },
           child: const Text(
             'See All',
           ),
@@ -202,11 +225,12 @@ class SectionHeader extends StatelessWidget {
 
 class PromotionalCarousel extends StatelessWidget {
   const PromotionalCarousel({
-    super.key,
-    required this.carouselItems,
+    super.key,required this.carousalItems,
+    required this.sizes
   });
 
-  final List carouselItems;
+  final List<PromotionalSliderData> carousalItems;
+  final Size sizes;
 
   @override
   Widget build(BuildContext context) {
@@ -222,25 +246,75 @@ class PromotionalCarousel extends StatelessWidget {
         floatingIndicator: true,
         aspectRatio: 1.8,
       ),
-      items: carouselItems.map((i) {
+      items: carousalItems.map((i) {
         return Builder(
           builder: (BuildContext context) {
             return Container(
-                width: double.maxFinite,
-                margin: const EdgeInsets.only(
-                  bottom: 32,
-                ),
-                decoration: BoxDecoration(
-                  color: AppColors.primaryColor,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Center(
-                    child: Text(
-                  'Item $i',
-                  style: const TextStyle(
-                    fontSize: 30.0,
+              width: double.maxFinite,
+              margin: const EdgeInsets.only(
+                bottom: 32,
+              ),
+              decoration: BoxDecoration(
+                color: AppColors.primaryColor,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Stack(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(0),
+                    child: CachedImage(
+                      url: i.image!,
+                    ),
                   ),
-                )));
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: SizedBox(
+                      width: sizes.width*0.5,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            i.title!,
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: AppColors.primaryColor.withOpacity(0.7),
+                              fontWeight: FontWeight.w800
+                            ),
+                          ),
+                          Text(
+                            i.shortDes!,
+                            maxLines: 4,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                                fontSize: 12,
+                                color: Colors.black38,
+                                fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                          ElevatedButton(
+                            onPressed: (){},
+                            style: ElevatedButton.styleFrom(
+                              minimumSize: const Size(80, 35),
+                              backgroundColor: Colors.white,
+                              shadowColor: AppColors.primaryColor,
+                              foregroundColor: AppColors.primaryColor
+                            ),
+                            child: const Text(
+                              'Buy Now',
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            );
           },
         );
       }).toList(),
