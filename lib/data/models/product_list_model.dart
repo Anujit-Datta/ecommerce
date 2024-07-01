@@ -2,16 +2,16 @@ import 'package:ecommerce/data/models/product_model.dart';
 
 class ProductList {
   String? msg;
-  List<Product>? productListByCategory;
+  List<Product>? productList;
 
-  ProductList({this.msg, this.productListByCategory});
+  ProductList({this.msg, this.productList});
 
   ProductList.fromJson(Map<String, dynamic> json) {
     msg = json['msg'];
     if (json['data'] != null) {
-      productListByCategory = <Product>[];
+      productList = <Product>[];
       json['data'].forEach((v) {
-        productListByCategory!.add(Product.fromJson(v));
+        productList!.add(Product.fromJson(v));
       });
     }
   }
@@ -19,8 +19,8 @@ class ProductList {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['msg'] = msg;
-    if (productListByCategory != null) {
-      data['data'] = productListByCategory!.map((v) => v.toJson()).toList();
+    if (productList != null) {
+      data['data'] = productList!.map((v) => v.toJson()).toList();
     }
     return data;
   }

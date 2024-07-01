@@ -1,6 +1,9 @@
 import 'package:ecommerce/presentation/controllers/bottom_nav_bar_controller.dart';
 import 'package:ecommerce/presentation/controllers/categories_list_controller.dart';
+import 'package:ecommerce/presentation/controllers/new_products_controller.dart';
+import 'package:ecommerce/presentation/controllers/popular_products_controller.dart';
 import 'package:ecommerce/presentation/controllers/promotional_slider_controller.dart';
+import 'package:ecommerce/presentation/controllers/spacial_products_controller.dart';
 import 'package:ecommerce/presentation/screens/cart_screen.dart';
 import 'package:ecommerce/presentation/screens/categories_screen.dart';
 import 'package:ecommerce/presentation/screens/home_screen.dart';
@@ -22,6 +25,9 @@ class _BottomNavLayoutState extends State<BottomNavLayout> {
     super.initState();
     Get.find<PromotionalSliderController>().getPromotionalSliderList();
     Get.find<CategoriesListController>().getCategoriesList();
+    Get.find<PopularProductsController>().getPopularProductsList();
+    Get.find<SpecialProductsController>().getSpecialProductsList();
+    Get.find<NewProductsController>().getNewProductsList();
   }
 
   final BottomNavBarController _bottomNavBarController=Get.find<BottomNavBarController>();

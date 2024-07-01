@@ -3,8 +3,10 @@ import 'package:ecommerce/data/models/product_model.dart';
 import 'package:ecommerce/data/models/promotional_slider_data_model.dart';
 import 'package:ecommerce/presentation/controllers/bottom_nav_bar_controller.dart';
 import 'package:ecommerce/presentation/controllers/categories_list_controller.dart';
+import 'package:ecommerce/presentation/controllers/new_products_controller.dart';
 import 'package:ecommerce/presentation/controllers/popular_products_controller.dart';
 import 'package:ecommerce/presentation/controllers/promotional_slider_controller.dart';
+import 'package:ecommerce/presentation/controllers/spacial_products_controller.dart';
 import 'package:ecommerce/presentation/utils/app_colors.dart';
 import 'package:ecommerce/presentation/utils/asset_paths.dart';
 import 'package:ecommerce/presentation/widgets/CachedImage.dart';
@@ -56,46 +58,65 @@ class _HomeScreenState extends State<HomeScreen> {
               const SizedBox(
                 height: 16,
               ),
-              GetBuilder<PromotionalSliderController>(
-                builder: (controller) {
-                  return Visibility(
-                    visible: !controller.inProgress,
-                    replacement: const CenterLoader(),
-                    child: PromotionalCarousel(carousalItems: controller.promotionalSliderList,sizes: sizes),
-                  );
-                }
-              ),
+              GetBuilder<PromotionalSliderController>(builder: (controller) {
+                return Visibility(
+                  visible: !controller.inProgress,
+                  replacement: SizedBox(height:sizes.height*0.24,child: const CenterLoader()),
+                  child: PromotionalCarousel(
+                      carousalItems: controller.promotionalSliderList,
+                      sizes: sizes),
+                );
+              }),
               const SizedBox(
                 height: 8,
               ),
               const SectionHeader(title: 'All Categories'),
-              GetBuilder<CategoriesListController>(
-                builder: (controller) {
-                  return CategoriesHorizontalScroll(
+              GetBuilder<CategoriesListController>(builder: (controller) {
+                return Visibility(
+                  visible: !controller.inProgress,
+                  replacement: SizedBox(height:sizes.height*0.11,child: const CenterLoader()),
+                  child: CategoriesHorizontalScroll(
                     categoriesList: controller.categoriesList,
                     sizes: sizes,
-                  );
-                }
-              ),
+                  ),
+                );
+              }),
               const SizedBox(
                 height: 8,
               ),
               const SectionHeader(title: 'Popular'),
-              GetBuilder<PopularProductsController>(
-                builder: (controller) {
-                  return productsHorizontalScroll(sizes,controller);
-                }
-              ),
+              GetBuilder<PopularProductsController>(builder: (controller) {
+                return Visibility(
+                  visible: !controller.inProgress,
+                  replacement: SizedBox(height:sizes.height*0.19,child: const CenterLoader()),
+                  child: productsHorizontalScroll(
+                      sizes, controller.popularProductsList),
+                );
+              }),
               const SizedBox(
                 height: 8,
               ),
-              const SectionHeader(title: 'Spacial'),
-              //productsHorizontalScroll(sizes),
+              const SectionHeader(title: 'Special'),
+              GetBuilder<SpecialProductsController>(builder: (controller) {
+                return Visibility(
+                  visible: !controller.inProgress,
+                  replacement: SizedBox(height:sizes.height*0.19,child: const CenterLoader()),
+                  child: productsHorizontalScroll(
+                      sizes, controller.specialProductsList),
+                );
+              }),
               const SizedBox(
                 height: 8,
               ),
               const SectionHeader(title: 'New'),
-              //productsHorizontalScroll(sizes),
+              GetBuilder<NewProductsController>(builder: (controller) {
+                return Visibility(
+                  visible: !controller.inProgress,
+                  replacement: SizedBox(height:sizes.height*0.19,child: const CenterLoader()),
+                  child: productsHorizontalScroll(
+                      sizes, controller.newProductsList),
+                );
+              }),
             ],
           ),
         ),
@@ -103,16 +124,19 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget productsHorizontalScroll(Size sizes,GetxController controller) {
+  Widget productsHorizontalScroll(Size sizes, List<Product> popularProducts) {
     return SizedBox(
       height: sizes.height * 0.185,
       child: ListView.separated(
-        itemCount: 4,
+        itemCount: popularProducts.length,
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {
-          return ProductCard(
-            sizes: sizes,
-            product: Product(),
+          return SizedBox(
+            width: sizes.width * 0.32,
+            child: ProductCard(
+              sizes: sizes,
+              product: popularProducts[index],
+            ),
           );
         },
         separatorBuilder: (context, _) {
@@ -178,7 +202,7 @@ class CategoriesHorizontalScroll extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {
           return CategoryView(
-              category: categoriesList[index],
+            category: categoriesList[index],
           );
         },
         separatorBuilder: (context, index) {
@@ -210,7 +234,7 @@ class SectionHeader extends StatelessWidget {
         ),
         TextButton(
           onPressed: () {
-            if(title=='All Categories'){
+            if (title == 'All Categories') {
               Get.find<BottomNavBarController>().changeSelectedItem(1);
             }
           },
@@ -224,10 +248,8 @@ class SectionHeader extends StatelessWidget {
 }
 
 class PromotionalCarousel extends StatelessWidget {
-  const PromotionalCarousel({
-    super.key,required this.carousalItems,
-    required this.sizes
-  });
+  const PromotionalCarousel(
+      {super.key, required this.carousalItems, required this.sizes});
 
   final List<PromotionalSliderData> carousalItems;
   final Size sizes;
@@ -269,7 +291,7 @@ class PromotionalCarousel extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: SizedBox(
-                      width: sizes.width*0.5,
+                      width: sizes.width * 0.5,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -277,35 +299,31 @@ class PromotionalCarousel extends StatelessWidget {
                           Text(
                             i.title!,
                             style: TextStyle(
-                              fontSize: 18,
-                              color: AppColors.primaryColor.withOpacity(0.7),
-                              fontWeight: FontWeight.w800
-                            ),
+                                fontSize: 18,
+                                color: AppColors.primaryColor.withOpacity(0.7),
+                                fontWeight: FontWeight.w800),
                           ),
                           Text(
                             i.shortDes!,
                             maxLines: 4,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
-                                fontSize: 12,
-                                color: Colors.black38,
-                                fontWeight: FontWeight.w400,
+                              fontSize: 12,
+                              color: Colors.black38,
+                              fontWeight: FontWeight.w400,
                             ),
                           ),
                           ElevatedButton(
-                            onPressed: (){},
+                            onPressed: () {},
                             style: ElevatedButton.styleFrom(
-                              minimumSize: const Size(80, 35),
-                              backgroundColor: Colors.white,
-                              shadowColor: AppColors.primaryColor,
-                              foregroundColor: AppColors.primaryColor
-                            ),
+                                minimumSize: const Size(80, 35),
+                                backgroundColor: Colors.white,
+                                shadowColor: AppColors.primaryColor,
+                                foregroundColor: AppColors.primaryColor),
                             child: const Text(
                               'Buy Now',
                               style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600
-                              ),
+                                  fontSize: 14, fontWeight: FontWeight.w600),
                             ),
                           ),
                         ],

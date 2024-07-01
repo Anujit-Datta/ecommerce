@@ -15,7 +15,7 @@ class ProductCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Get.to(() => const ProductDetailsScreen());
+        Get.to(() => ProductDetailsScreen(productId: product.id??1,));
       },
       child: Card(
         elevation: 4,
@@ -177,10 +177,9 @@ class ProductImage extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.primaryColor.withOpacity(0.1),
       ),
-      child: Image.network(
-        imageLink,
-        fit: BoxFit.cover,
-      ),
+      child: CachedImage(
+        url: imageLink,
+      )
     );
   }
 }

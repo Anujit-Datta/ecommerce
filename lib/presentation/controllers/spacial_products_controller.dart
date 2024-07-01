@@ -5,22 +5,22 @@ import 'package:ecommerce/data/network_caller/network_caller.dart';
 import 'package:ecommerce/data/utils/urls.dart';
 import 'package:get/get.dart';
 
-class PopularProductsController extends GetxController{
+class SpecialProductsController extends GetxController{
   bool _inProgress=false;
   String _errorMessage='';
-  List<Product> _popularProductsList=[];
+  List<Product> _specialProductsList=[];
 
   bool get inProgress => _inProgress;
-  List<Product> get popularProductsList => _popularProductsList;
+  List<Product> get specialProductsList => _specialProductsList;
   String get errorMessage => _errorMessage;
 
-  Future<void> getPopularProductsList()async{
+  Future<void> getSpecialProductsList()async{
     _inProgress=true;
     update();
 
-    final NetworkResponse response=await NetworkCaller.getRequest(url: Urls.productListByRemark('popular'));
+    final NetworkResponse response=await NetworkCaller.getRequest(url: Urls.productListByRemark('special'));
     if(response.isSuccess){
-      _popularProductsList=ProductList.fromJson(response.responseData).productList ?? [];
+      _specialProductsList=ProductList.fromJson(response.responseData).productList ?? [];
     }else{
       _errorMessage=response.errorMessage ?? '';
     }

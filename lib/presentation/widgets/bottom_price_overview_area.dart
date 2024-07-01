@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 
 class PriceOverview extends StatelessWidget {
   final bool isCart;
+  final String price;
   const PriceOverview({
-    super.key,required this.isCart,
+    super.key,required this.isCart,this.price='1000'
   });
 
   @override
@@ -35,9 +36,9 @@ class PriceOverview extends StatelessWidget {
                     color: Colors.black38,
                   ),
                 ),
-                const Text(
-                  '\$1000',
-                  style: TextStyle(
+                Text(
+                  '\$$price',
+                  style: const TextStyle(
                       color: AppColors.primaryColor,
                       fontWeight: FontWeight.w600,
                       fontSize: 18

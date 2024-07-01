@@ -23,7 +23,7 @@ class ProductListByCategoryController extends GetxController{
         url: Urls.productListByCategory(categoryId));
     if (response.isSuccess) {
       _productListByCategory =
-          ProductList.fromJson(response.responseData).productListByCategory ??
+          ProductList.fromJson(response.responseData).productList ??
               [];
     } else {
       _errorMessage = response.errorMessage ?? '';
