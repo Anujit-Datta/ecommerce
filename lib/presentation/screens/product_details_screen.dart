@@ -1,3 +1,4 @@
+import 'package:ecommerce/presentation/controllers/add_to_cart_controller.dart';
 import 'package:ecommerce/presentation/controllers/product_details_controller.dart';
 import 'package:ecommerce/presentation/screens/reviews_screen.dart';
 import 'package:ecommerce/presentation/utils/app_colors.dart';
@@ -58,7 +59,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           Row(
                             children: [
                               ProductTitle(title: controller.productDetails.product?.title??'title'),
-                              Expanded(
+                              const Expanded(
                                 flex: 2,
                                 child: QuantityStepper(),
                               ),
@@ -117,48 +118,50 @@ class SizeSelector extends StatefulWidget {
 }
 
 class _SizeSelectorState extends State<SizeSelector> {
-  int selectedIndex=0;
   @override
   Widget build(BuildContext context) {
-    List<String> sizesList=widget.sizes.split(',');
+    Get.find<AddToCartController>().sizeListSetter(widget.sizes.split(','));
     return SizedBox(
       height: 28,
-      child: ListView.builder(
-        itemCount: sizesList.length,
-        scrollDirection: Axis.horizontal,
-        itemBuilder: (context,index){
-          return Padding(
-            padding: const EdgeInsets.only(right: 10),
-            child: GestureDetector(
-              onTap: (){
-                selectedIndex=index;
-                setState(() {});
-              },
-              child: Container(
-                width: 28,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(50),
-                  border: Border.all(width: 1,color: Colors.grey),
-                  color: index==selectedIndex?AppColors.primaryColor:null,
-                ),
-                child: Center(
-                  child: Text(
-                    sizesList[index],
-                    style: TextStyle(
-                      color: index==selectedIndex?Colors.white:Colors.black54,
+      child: GetBuilder<AddToCartController>(
+        builder: (controller) {
+          return ListView.builder(
+            itemCount: controller.sizeList.length,
+            scrollDirection: Axis.horizontal,
+            itemBuilder: (context,index){
+              return Padding(
+                padding: const EdgeInsets.only(right: 10),
+                child: GestureDetector(
+                  onTap: (){
+                    controller.sizeIndexSetter(index);
+                  },
+                  child: Container(
+                    width: 28,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(50),
+                      border: Border.all(width: 1,color: Colors.grey),
+                      color: index==controller.selectedSizeIndex?AppColors.primaryColor:null,
+                    ),
+                    child: Center(
+                      child: Text(
+                        controller.sizeList[index],
+                        style: TextStyle(
+                          color: index==controller.selectedSizeIndex?Colors.white:Colors.black54,
+                        ),
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ),
+              );
+            },
           );
-        },
+        }
       ),
     );
   }
 }
 
-class ColorSelector extends StatefulWidget {
+class ColorSelector extends StatelessWidget {
   const ColorSelector({
     super.key,
   required this.colors
@@ -167,49 +170,47 @@ class ColorSelector extends StatefulWidget {
   final String colors;
 
   @override
-  State<ColorSelector> createState() => _ColorSelectorState();
-}
-
-class _ColorSelectorState extends State<ColorSelector> {
-  int selectedIndex=0;
-  @override
   Widget build(BuildContext context) {
-    List<String> colorsNames=widget.colors.split(',');
+    List<String> colorsNames=colors.split(',');
+    Get.find<AddToCartController>().colorListSetter(colorsNames);
     List<Color> colorsList=[];
     for(String colorName in colorsNames){
       colorsList.add(getColor(colorName));
     }
     return SizedBox(
       height: 30,
-      child: ListView.builder(
-        itemCount: colorsList.length,
-        scrollDirection: Axis.horizontal,
-        itemBuilder: (context,index){
-          return Padding(
-            padding: const EdgeInsets.only(right: 10),
-            child: GestureDetector(
-              onTap: (){
-                selectedIndex=index;
-                setState(() {});
-              },
-              child: CircleAvatar(
-                radius: 13.5,
-                backgroundColor: Colors.black45,
-                child: CircleAvatar(
-                  radius: 13,
-                  backgroundColor: colorsList[index],
-                  child: Visibility(
-                    visible: index==selectedIndex,
-                    child: const Icon(
-                      Icons.check,
-                      color: Colors.black45,
+      child: GetBuilder<AddToCartController>(
+        builder: (controller) {
+          return ListView.builder(
+            itemCount: colorsList.length,
+            scrollDirection: Axis.horizontal,
+            itemBuilder: (context,index){
+              return Padding(
+                padding: const EdgeInsets.only(right: 10),
+                child: GestureDetector(
+                  onTap: (){
+                    controller.colorIndexSetter(index);
+                  },
+                  child: CircleAvatar(
+                    radius: 13.5,
+                    backgroundColor: Colors.black45,
+                    child: CircleAvatar(
+                      radius: 13,
+                      backgroundColor: colorsList[index],
+                      child: Visibility(
+                        visible: index==controller.selectedColorIndex,
+                        child: const Icon(
+                          Icons.check,
+                          color: Colors.black45,
+                        ),
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ),
+              );
+            },
           );
-        },
+        }
       ),
     );
   }

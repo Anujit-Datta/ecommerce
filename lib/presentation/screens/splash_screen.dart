@@ -1,6 +1,5 @@
 import 'package:ecommerce/presentation/screens/bottom_nav_layout.dart';
 import 'package:ecommerce/presentation/screens/email_verify_screen.dart';
-import 'package:ecommerce/presentation/screens/home_screen.dart';
 import 'package:ecommerce/presentation/utils/asset_paths.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -18,7 +17,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(seconds: 2)).whenComplete(() => Get.to(() => BottomNavLayout()));
+    Future.delayed(const Duration(seconds: 2)).whenComplete(() => Get.off(() => BottomNavLayout()));
   }
   @override
   Widget build(BuildContext context) {

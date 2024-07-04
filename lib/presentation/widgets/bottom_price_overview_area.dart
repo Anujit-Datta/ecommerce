@@ -1,5 +1,9 @@
+import 'package:ecommerce/data/models/cart_item_model.dart';
+import 'package:ecommerce/presentation/controllers/add_to_cart_controller.dart';
 import 'package:ecommerce/presentation/utils/app_colors.dart';
+import 'package:ecommerce/presentation/widgets/center_circular_progress_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class PriceOverview extends StatelessWidget {
   final bool isCart;
@@ -49,15 +53,29 @@ class PriceOverview extends StatelessWidget {
             SizedBox(
               width: 140,
               height: 45,
-              child: ElevatedButton(
-                onPressed: (){},
-                child: Text(
-                  !isCart?'Add To Cart':'Checkout',
-                  style: const TextStyle(
-                    color: Colors.white,
+              child: GetBuilder<AddToCartController>(
+                builder: (addToCartController) {
+                  return ElevatedButton(
+                    onPressed: ()async{
+                      if(isCart){
 
-                  ),
-                ),
+                      }else{
+                        await addToCartController.addToCart();
+                      }
+                    },
+                    child: Visibility(
+                      visible: !addToCartController.inProgress,
+                      replacement: const CenterLoader(),
+                      child: Text(
+                        !isCart?'Add To Cart':'Checkout',
+                        style: const TextStyle(
+                          color: Colors.white,
+
+                        ),
+                      ),
+                    ),
+                  );
+                }
               ),
             )
           ],

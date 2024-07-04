@@ -14,6 +14,7 @@ class ProductDetailsController extends GetxController{
   ProductDetails get productDetails => _productDetails;
   String get errorMessage => _errorMessage;
 
+
   Future<void> getProductDetails(int id)async{
     _inProgress=true;
     update();

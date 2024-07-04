@@ -1,8 +1,11 @@
 import 'dart:async';
 
+import 'package:ecommerce/presentation/controllers/email_verify_controller.dart';
+import 'package:ecommerce/presentation/controllers/otp_verify_controller.dart';
 import 'package:ecommerce/presentation/screens/complete_profile_screen.dart';
 import 'package:ecommerce/presentation/utils/app_colors.dart';
 import 'package:ecommerce/presentation/widgets/logo.dart';
+import 'package:ecommerce/presentation/widgets/snacbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
@@ -10,7 +13,9 @@ import 'package:pin_code_fields/pin_code_fields.dart';
 import '../utils/asset_paths.dart';
 
 class OTPVerifyScreen extends StatefulWidget {
-  const OTPVerifyScreen({super.key});
+  const OTPVerifyScreen({super.key,required this.email});
+
+  final String email;
 
   @override
   State<OTPVerifyScreen> createState() => _OTPVerifyScreenState();
@@ -18,14 +23,8 @@ class OTPVerifyScreen extends StatefulWidget {
 
 class _OTPVerifyScreenState extends State<OTPVerifyScreen> {
   final TextEditingController _otpTEController=TextEditingController();
-  RxInt time=12.obs;
-  RxBool resetButtonEnabled=false.obs;
+  final GlobalKey<FormState> _formKey=GlobalKey<FormState>();
 
-  @override
-  void initState() {
-    super.initState();
-    startTimer();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,29 +34,44 @@ class _OTPVerifyScreenState extends State<OTPVerifyScreen> {
       body: Center(
         child: Padding(
           padding: EdgeInsets.all(sizes.height*0.05),
-          child: Column(
-            children: [
-              const Spacer(),
-              Logo(path: AssetPaths.appLogo,scale: sizes.height*0.12,),
-              SizedBox(height: sizes.height*0.03,),
-              Text('Enter OTP Code', style: textTheme.titleLarge,),
-              SizedBox(height: sizes.height*0.01,),
-              Text('A 4 digit OTP code that has been Sent', style: textTheme.titleSmall,),
-              SizedBox(height: sizes.height*0.02,),
-              _otpTextField(context),
-              SizedBox(height: sizes.height*0.02,),
-              ElevatedButton(
-                onPressed: (){
-                  Get.to(() => const CompleteProfileScreen());
-                },
-                child: const Text('Next',),
-              ),
-              SizedBox(height: sizes.height*0.04,),
-              _resendTimer(textTheme),
-              _resendButton(textTheme),
-              const Spacer(),
-              const Spacer()
-            ],
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                const Spacer(),
+                Logo(path: AssetPaths.appLogo,scale: sizes.height*0.12,),
+                SizedBox(height: sizes.height*0.03,),
+                Text('Enter OTP Code', style: textTheme.titleLarge,),
+                SizedBox(height: sizes.height*0.01,),
+                Text('A 4 digit OTP code that has been Sent', style: textTheme.titleSmall,),
+                SizedBox(height: sizes.height*0.02,),
+                _otpTextField(context),
+                SizedBox(height: sizes.height*0.02,),
+                GetBuilder<OtpVerifyController>(
+                  builder: (controller) {
+                    return ElevatedButton(
+                      onPressed: ()async{
+                        if(_formKey.currentState!.validate()){
+                          await controller.otpVerify(widget.email, _otpTEController.text.trim()).then((isSuccess) {
+                            if(isSuccess){
+                              Get.back();
+                            }else{
+                              showSnackBar(context, controller.errorMessage);
+                            }
+                          });
+                        }
+                      },
+                      child: const Text('Next',),
+                    );
+                  }
+                ),
+                SizedBox(height: sizes.height*0.04,),
+                _resendTimer(textTheme),
+                _resendButton(textTheme),
+                const Spacer(),
+                const Spacer()
+              ],
+            ),
           ),
         ),
       ),
@@ -65,36 +79,51 @@ class _OTPVerifyScreenState extends State<OTPVerifyScreen> {
   }
 
   Widget _resendTimer(TextTheme textTheme) {
-    return Obx(() =>
-      RichText(
-        text: TextSpan(
+    return GetBuilder<EmailVerifyController>(
+      builder: (controller) {
+        return RichText(
+          text: TextSpan(
             text: 'This code will expire in ',
             style: textTheme.titleSmall,
             children: [
               TextSpan(
-                text: '${time.value}s',
+                text: '${controller.time}s',
                 style: textTheme.labelSmall,
               ),
             ],
-        ),
-      ),
+          ),
+        );
+      }
     );
+
   }
 
   Widget _resendButton(TextTheme textTheme) {
-    return Obx(() =>
-      TextButton(
-        onPressed: resetButtonEnabled.value?(){}:null,
-        child: Text(
-          'Resend Code',
-          style: !resetButtonEnabled.value
-              ?textTheme.titleSmall
-              :const TextStyle(
-            color: AppColors.primaryColor,
-          ),
-        ),
+    return
+      GetBuilder<EmailVerifyController>(
+        builder: (controller) {
+          return TextButton(
+            onPressed: controller.resetButtonEnabled?()async{
+              await controller.emailVerify(widget.email).then((value) {
+                if(value){
+                  showSnackBar(context, 'OTP sent again');
+                }else{
+                  showSnackBar(context, controller.errorMessage);
+                }
+              });
 
-      ),
+            }:null,
+            child: Text(
+              'Resend Code',
+              style: !controller.resetButtonEnabled
+                  ?textTheme.titleSmall
+                  :const TextStyle(
+                color: AppColors.primaryColor,
+              ),
+            ),
+
+          );
+        }
     );
   }
 
@@ -126,18 +155,5 @@ class _OTPVerifyScreenState extends State<OTPVerifyScreen> {
   void dispose() {
     _otpTEController.dispose();
     super.dispose();
-  }
-
-  startTimer(){
-    Timer.periodic(const Duration(seconds: 1), (timer) {
-      if(time.value>0){
-        time.value--;
-        if(time.value==0){
-          resetButtonEnabled.value=true;
-        }
-      }else{
-        timer.cancel();
-      }
-    });
   }
 }

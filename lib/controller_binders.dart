@@ -1,6 +1,9 @@
+import 'package:ecommerce/presentation/controllers/add_to_cart_controller.dart';
 import 'package:ecommerce/presentation/controllers/bottom_nav_bar_controller.dart';
 import 'package:ecommerce/presentation/controllers/categories_list_controller.dart';
+import 'package:ecommerce/presentation/controllers/email_verify_controller.dart';
 import 'package:ecommerce/presentation/controllers/new_products_controller.dart';
+import 'package:ecommerce/presentation/controllers/otp_verify_controller.dart';
 import 'package:ecommerce/presentation/controllers/popular_products_controller.dart';
 import 'package:ecommerce/presentation/controllers/product_details_controller.dart';
 import 'package:ecommerce/presentation/controllers/product_list_by_category_controller.dart';
@@ -19,6 +22,9 @@ class ControllerBinders extends Bindings{
     Get.put(SpecialProductsController());
     Get.put(NewProductsController());
     Get.put(ProductDetailsController());
+    Get.put(EmailVerifyController());
+    Get.put(OtpVerifyController());
+    Get.put(AddToCartController());
   }
 
 }

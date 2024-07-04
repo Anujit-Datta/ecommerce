@@ -10,4 +10,10 @@ class Urls{
 
   static String productDetails(int id) => '$_baseUrl/ProductDetailsById/$id';
 
+  static String addToCart = '$_baseUrl/CreateCartList';
+
+
+  static String emailVerify(String email) => '$_baseUrl/UserLogin/$email';
+  static String otpVerify(String email,String otp) => '$_baseUrl/VerifyLogin/$email/$otp';
+
 }

@@ -1,10 +1,13 @@
 import 'dart:convert';
 import 'dart:developer';
-
 import 'package:ecommerce/data/models/network_reponse.dart';
+import 'package:ecommerce/presentation/controllers/user_auth_controller.dart';
 import 'package:ecommerce/presentation/screens/email_verify_screen.dart';
+import 'package:ecommerce/presentation/widgets/snacbar.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart' as getx;
 import 'package:http/http.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class NetworkCaller{
   static Future<NetworkResponse> getRequest({required String url})async{
@@ -21,6 +24,7 @@ class NetworkCaller{
           responseData: decodedResponse,
         );
       }else if(response.statusCode==401){
+        goToSignInScreen();
         return NetworkResponse(
           statusCode: response.statusCode,
           isSuccess: false,
@@ -42,14 +46,22 @@ class NetworkCaller{
   }
 
   static Future<NetworkResponse> postRequest({required String url,required Map<String,dynamic> body})async{
+    log(url);
+    log(body.toString());
     try{
+      Map<String,String> header = <String,String>{
+        'accept':'application/json'
+      };
+      if(await Auth.isLoggedIn()){
+        header['token']=Auth.accessToken;
+      }
       final Response response = await post(
         Uri.parse(url),
-        headers: {
-          'accept':'application/json'
-        },
-        body: body,
+        headers: header,
+        body: jsonEncode(body),
       );
+      log(response.statusCode.toString());
+      log(response.body);
       if(response.statusCode==200){
         final decodedResponse=jsonDecode(response.body);
         return NetworkResponse(
@@ -58,6 +70,7 @@ class NetworkCaller{
           responseData: decodedResponse,
         );
       }else if(response.statusCode==401){
+        goToSignInScreen();
         return NetworkResponse(
           statusCode: response.statusCode,
           isSuccess: false,
@@ -69,6 +82,8 @@ class NetworkCaller{
         );
       }
     }catch(error){
+      error.printInfo();
+      error.printError();
       return NetworkResponse(
         statusCode: -1,
         isSuccess: false,
@@ -77,7 +92,8 @@ class NetworkCaller{
     }
   }
 
-  static void goToSignInScreen(){
+  static void goToSignInScreen()async{
+    Auth.deleteData();
     getx.Get.to(()=>const EmailVerifyScreen());
   }
 }
