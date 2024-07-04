@@ -3,8 +3,6 @@ import 'dart:developer';
 import 'package:ecommerce/data/models/network_reponse.dart';
 import 'package:ecommerce/presentation/controllers/user_auth_controller.dart';
 import 'package:ecommerce/presentation/screens/email_verify_screen.dart';
-import 'package:ecommerce/presentation/widgets/snacbar.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart' as getx;
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -13,7 +11,9 @@ class NetworkCaller{
   static Future<NetworkResponse> getRequest({required String url})async{
     try{
       log(url);
-      final Response response = await get(Uri.parse(url));
+      final Response response = await get(Uri.parse(url),headers: {
+        'token' : Auth.accessToken
+      });
       log(response.statusCode.toString());
       log(response.body);
       if(response.statusCode==200){

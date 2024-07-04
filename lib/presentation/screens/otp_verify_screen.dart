@@ -1,7 +1,6 @@
-import 'dart:async';
-
 import 'package:ecommerce/presentation/controllers/email_verify_controller.dart';
 import 'package:ecommerce/presentation/controllers/otp_verify_controller.dart';
+import 'package:ecommerce/presentation/controllers/profile_read_controller.dart';
 import 'package:ecommerce/presentation/screens/complete_profile_screen.dart';
 import 'package:ecommerce/presentation/utils/app_colors.dart';
 import 'package:ecommerce/presentation/widgets/logo.dart';
@@ -52,9 +51,14 @@ class _OTPVerifyScreenState extends State<OTPVerifyScreen> {
                     return ElevatedButton(
                       onPressed: ()async{
                         if(_formKey.currentState!.validate()){
-                          await controller.otpVerify(widget.email, _otpTEController.text.trim()).then((isSuccess) {
+                          await controller.otpVerify(widget.email, _otpTEController.text.trim()).then((isSuccess) async{
+                            ReadProfileController readProfileController=Get.find<ReadProfileController>();
                             if(isSuccess){
-                              Get.back();
+                              if(await readProfileController.getProfileData()){
+                                Get.back();
+                              }else{
+                                Get.off(() => const CompleteProfileScreen());
+                              }
                             }else{
                               showSnackBar(context, controller.errorMessage);
                             }

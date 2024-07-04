@@ -68,7 +68,7 @@ class ECommerce extends StatelessWidget {
         color: Colors.black54,
       ),
       titleSmall: TextStyle(
-        fontWeight: FontWeight.w300,
+        fontWeight: FontWeight.w400,
         color: Colors.black54
       ),
       labelSmall: TextStyle(
@@ -84,6 +84,10 @@ class ECommerce extends StatelessWidget {
       enabledBorder: _outlineInputBorder(),
       disabledBorder: _outlineInputBorder(),
       focusedBorder: _outlineInputBorder(),
+      hintStyle: TextStyle(
+        fontSize: 14,
+        color: Colors.grey
+      )
       );
   }
 

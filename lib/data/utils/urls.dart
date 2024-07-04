@@ -15,5 +15,7 @@ class Urls{
 
   static String emailVerify(String email) => '$_baseUrl/UserLogin/$email';
   static String otpVerify(String email,String otp) => '$_baseUrl/VerifyLogin/$email/$otp';
+  static String readProfile = '$_baseUrl/ReadProfile';
+  static String createProfile = '$_baseUrl/CreateProfile';
 
 }

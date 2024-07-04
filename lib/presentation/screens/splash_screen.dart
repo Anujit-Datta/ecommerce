@@ -1,4 +1,5 @@
 import 'package:ecommerce/presentation/screens/bottom_nav_layout.dart';
+import 'package:ecommerce/presentation/screens/complete_profile_screen.dart';
 import 'package:ecommerce/presentation/screens/email_verify_screen.dart';
 import 'package:ecommerce/presentation/utils/asset_paths.dart';
 import 'package:flutter/material.dart';
