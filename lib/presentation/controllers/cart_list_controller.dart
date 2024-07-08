@@ -49,14 +49,14 @@ class CartListController extends GetxController{
     return total;
   }
 
-  void deleteCartItem(int cartId)async{
+  void deleteCartItem(int productId)async{
     _deleteInProgress = true;
     update();
     final NetworkResponse response = await NetworkCaller.getRequest(
-      url: Urls.deleteFromCartList(cartId),
+      url: Urls.deleteFromCartList(productId),
     );
     if (response.isSuccess) {
-      _cartList.removeWhere((element) => element.id==cartId);
+      _cartList.removeWhere((element) => element.productId==productId);
     } else {
       _errorMessage = response.errorMessage
           ?? 'Error deleting cart item';

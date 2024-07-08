@@ -23,8 +23,7 @@ class ProductDetailsScreen extends StatefulWidget {
 }
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
-  List<String> measurement=['S','M','L','XL'];
-  int selectedMeasurement=1;
+
 
   @override
   void initState() {

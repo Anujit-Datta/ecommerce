@@ -32,9 +32,15 @@ class AddToCartController extends GetxController{
     _selectedSizeIndex=index;
     update();
   }
-  quantitySetter(int quantity){
-    _quantity=quantity;
+  quantityIncrease(){
+    _quantity+=1;
     update();
+  }
+  quantityDecrease(){
+    if(_quantity>1){
+      _quantity -= 1;
+      update();
+    }
   }
   colorListSetter(List<String> colors){
     _colorList=colors;

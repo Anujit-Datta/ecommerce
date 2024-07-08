@@ -115,7 +115,7 @@ class _CartScreenState extends State<CartScreen> {
                                         child: IconButton(
                                           onPressed: (){
                                             controller.currentIndexSetter(index);
-                                            controller.deleteCartItem(controller.cartList[index].id!);
+                                            controller.deleteCartItem(controller.cartList[index].productId!);
                                           },
                                           icon: const Icon(
                                             Icons.delete_forever_outlined,
@@ -189,7 +189,7 @@ class QuantityStepper extends StatelessWidget {
               ),
             ),
             SizedBox(
-              width: 10,
+              width: 17,
               child: Text(
                 controller.cartList[index].qty!,
                 style: const TextStyle(

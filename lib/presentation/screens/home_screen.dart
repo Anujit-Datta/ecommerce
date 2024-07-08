@@ -27,20 +27,6 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final TextEditingController _searchTEController = TextEditingController();
-  List carouselItems = [1, 2, 3, 4, 5];
-  String title = 'Section Title';
-  String productName = 'Product Name';
-  String rating = '4.8';
-  double price = 100;
-  bool isFavourite = false;
-  String imageLink = 'assets/images/shoe.png';
-  List categoryNames = ['Electronics', 'Food', 'Fashion', 'Furniture'];
-  List categoryImages = [
-    AssetPaths.electronicsCategoryLogo,
-    AssetPaths.foodCategoryLogo,
-    AssetPaths.fashionCategoryLogo,
-    AssetPaths.furnitureCategoryLogo
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -198,7 +184,7 @@ class CategoriesHorizontalScroll extends StatelessWidget {
       height: sizes.height * 0.113,
       width: double.maxFinite,
       child: ListView.separated(
-        itemCount: 4,
+        itemCount: categoriesList.length,
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {
           return CategoryView(
