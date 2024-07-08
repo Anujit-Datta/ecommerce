@@ -1,21 +1,31 @@
+
 import 'package:ecommerce/data/models/product_model.dart';
+import 'package:ecommerce/presentation/controllers/wishlist_controller.dart';
 import 'package:ecommerce/presentation/screens/product_details_screen.dart';
 import 'package:ecommerce/presentation/utils/app_colors.dart';
 import 'package:ecommerce/presentation/widgets/CachedImage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class ProductCard extends StatelessWidget {
+class ProductCard extends StatefulWidget {
   const ProductCard({super.key, required this.sizes, required this.product});
 
   final Size sizes;
   final Product product;
 
   @override
+  State<ProductCard> createState() => _ProductCardState();
+}
+
+class _ProductCardState extends State<ProductCard> {
+  @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        Get.to(() => ProductDetailsScreen(productId: product.id??1,));
+      onTap: (){
+        Get.find<WishListController>().isWishListedCheck(widget.product.id??0);
+        Get.to(() => ProductDetailsScreen(
+              productId: widget.product.id ?? 1,
+            ));
       },
       child: Card(
         elevation: 4,
@@ -29,7 +39,7 @@ class ProductCard extends StatelessWidget {
             Expanded(
               flex: 3,
               child: ProductImage(
-                  imageLink: product.image ??
+                  imageLink: widget.product.image ??
                       "https:\/\/photo.teamrabbil.com\/images\/2023\/04\/04\/product.png"),
             ),
             Expanded(
@@ -37,24 +47,23 @@ class ProductCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  ProductTitle(productName: product.title ?? 'Title'),
+                  ProductTitle(productName: widget.product.title ?? 'Title'),
                   Padding(
                     padding:
-                        EdgeInsets.symmetric(horizontal: sizes.width * 0.01),
+                        EdgeInsets.symmetric(horizontal: widget.sizes.width * 0.01),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         ProductPrice(
-                            price: double.parse(product.price ?? '100')),
+                            price: double.parse(widget.product.price ?? '100')),
                         Row(
                           children: [
                             ProductRating(
-                                rating: product.star?.toStringAsFixed(1) ??
-                                    '4.7'),
+                                rating:
+                                    widget.product.star?.toStringAsFixed(1) ?? '4.7'),
                             SizedBox(
-                              width: sizes.width * 0.01,
+                              width: widget.sizes.width * 0.01,
                             ),
-                            const ProductWishlisted(isWishListed: false),
                           ],
                         )
                       ],
@@ -67,30 +76,6 @@ class ProductCard extends StatelessWidget {
         ),
       ),
     );
-  }
-}
-
-class ProductWishlisted extends StatelessWidget {
-  const ProductWishlisted({
-    super.key,
-    required this.isWishListed,
-  });
-
-  final bool isWishListed;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-        decoration: BoxDecoration(
-            color: AppColors.primaryColor,
-            borderRadius: BorderRadius.circular(3)),
-        child: Padding(
-            padding: const EdgeInsets.all(2.0),
-            child: Icon(
-              isWishListed ? Icons.favorite : Icons.favorite_outline,
-              size: 13,
-              color: isWishListed ? Colors.redAccent : Colors.white,
-            )));
   }
 }
 
@@ -174,12 +159,11 @@ class ProductImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-        color: AppColors.primaryColor.withOpacity(0.1),
-      ),
-      child: CachedImage(
-        url: imageLink,
-      )
-    );
+        decoration: BoxDecoration(
+          color: AppColors.primaryColor.withOpacity(0.1),
+        ),
+        child: CachedImage(
+          url: imageLink,
+        ));
   }
 }

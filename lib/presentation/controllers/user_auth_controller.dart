@@ -1,7 +1,7 @@
 import 'dart:developer';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class Auth{
+class AuthController{
   static String accessToken='';
 
   static const _key='token';

@@ -1,5 +1,7 @@
+import 'package:ecommerce/presentation/controllers/add_or_remove_wishlist_controller.dart';
 import 'package:ecommerce/presentation/controllers/add_to_cart_controller.dart';
 import 'package:ecommerce/presentation/controllers/product_details_controller.dart';
+import 'package:ecommerce/presentation/controllers/wishlist_controller.dart';
 import 'package:ecommerce/presentation/screens/reviews_screen.dart';
 import 'package:ecommerce/presentation/utils/app_colors.dart';
 import 'package:ecommerce/presentation/widgets/CachedImage.dart';
@@ -68,8 +70,23 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           Row(
                             children: [
                               ProductRating(rating: controller.productDetails.product?.star.toString()??'4.7'),
-                              ReviewsButton(),
-                              ProductWishlisted(isWishListed: false),
+                              ReviewsButton(productId: widget.productId),
+                              GetBuilder<WishListController>(
+                                builder: (controller){
+                                  return Visibility(
+                                    visible: !controller.inProgress,
+                                    replacement: const SizedBox(
+                                      height: 10,
+                                      width: 10,
+                                      child: CenterLoader()
+                                    ),
+                                    child: ProductWishlisted(
+                                      productId: widget.productId,
+                                      isWishListed: controller.isWishListed,
+                                    ),
+                                  );
+                                }
+                              ),
                             ],
                           ),
                           const SectionHeader(title: 'Color'),
@@ -102,6 +119,45 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         ),
       )
     );
+  }
+}
+
+class ProductWishlisted extends StatelessWidget {
+  const ProductWishlisted({
+    super.key,
+    required this.productId,
+    required this.isWishListed,
+  });
+
+  final int productId;
+  final bool isWishListed;
+
+  @override
+  Widget build(BuildContext context) {
+    return GetBuilder<AddOrRemoveWishListController>(
+      builder: (controller) {
+        return Container(
+                decoration: BoxDecoration(
+                    color: AppColors.primaryColor,
+                    borderRadius: BorderRadius.circular(3)),
+                child: Padding(
+                    padding: const EdgeInsets.all(2.0),
+                    child: InkWell(
+                      onTap: ()async{
+                        if (!isWishListed) {
+                          await controller.addToWishList(productId);
+                        } else {
+                          await controller.removeFromWishList(productId);
+                        }
+                        Get.find<WishListController>().isWishListedCheck(productId);
+                      },
+                      child: Icon(
+                         isWishListed? Icons.favorite : Icons.favorite_outline,
+                        size: 13,
+                        color: Colors.white,
+                      ),
+                    )));
+          });
   }
 }
 
@@ -232,14 +288,16 @@ class ColorSelector extends StatelessWidget {
 
 class ReviewsButton extends StatelessWidget {
   const ReviewsButton({
-    super.key,
+    super.key, required this.productId
   });
+
+  final int productId;
 
   @override
   Widget build(BuildContext context) {
     return TextButton(
       onPressed: (){
-        Get.to(()=>const ReviewsScreen());
+        Get.to(()=> ReviewsScreen(productId: productId,));
       },
       child: const Text(
         'Reviews',

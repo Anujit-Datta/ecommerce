@@ -5,7 +5,7 @@ import 'package:ecommerce/presentation/controllers/user_auth_controller.dart';
 import 'package:ecommerce/presentation/screens/otp_verify_screen.dart';
 import 'package:get/get.dart';
 
-class OtpVerifyController extends GetxController{
+class CreateReviewController extends GetxController{
   bool _inProgress=false;
   String _errorMessage='';
 
@@ -14,19 +14,20 @@ class OtpVerifyController extends GetxController{
   String get errorMessage => _errorMessage;
 
 
-  Future<bool> otpVerify(String email,String otp)async{
+  Future<bool> createReview(Map<String,dynamic> body)async{
     _inProgress=true;
     bool isSuccess=false;
     update();
-    final NetworkResponse response = await NetworkCaller.getRequest(url: Urls.otpVerify(email,otp));
+    final NetworkResponse response = await NetworkCaller.postRequest(
+      url: Urls.createReview,
+      body: body,
+    );
     if(response.isSuccess){
       isSuccess= true;
-      await AuthController.setToken(response.responseData['data']);
     }else{
       _errorMessage=response.errorMessage!;
       isSuccess= false;
     }
-
     _inProgress=false;
     update();
     return isSuccess;

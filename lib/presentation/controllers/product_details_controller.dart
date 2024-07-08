@@ -3,6 +3,7 @@ import 'package:ecommerce/data/models/product_details_model.dart';
 import 'package:ecommerce/data/models/product_model.dart';
 import 'package:ecommerce/data/network_caller/network_caller.dart';
 import 'package:ecommerce/data/utils/urls.dart';
+import 'package:ecommerce/presentation/controllers/wishlist_controller.dart';
 import 'package:get/get.dart';
 
 class ProductDetailsController extends GetxController{
@@ -42,6 +43,7 @@ class ProductDetailsController extends GetxController{
       _errorMessage=response.errorMessage ?? '';
     }
 
+    await Get.find<WishListController>().isWishListedCheck(id);
     _inProgress=false;
     update();
     return;

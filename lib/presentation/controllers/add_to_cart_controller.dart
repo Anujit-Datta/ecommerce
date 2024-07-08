@@ -1,10 +1,8 @@
 import 'dart:developer';
-
-import 'package:ecommerce/data/models/cart_item_model.dart';
+import 'package:ecommerce/data/models/cart_item_adding_model.dart';
 import 'package:ecommerce/data/models/network_reponse.dart';
 import 'package:ecommerce/data/network_caller/network_caller.dart';
 import 'package:ecommerce/data/utils/urls.dart';
-import 'package:ecommerce/presentation/controllers/product_details_controller.dart';
 import 'package:get/get.dart';
 
 class AddToCartController extends GetxController{
@@ -51,7 +49,7 @@ class AddToCartController extends GetxController{
     _inProgress=true;
     bool isSuccess=false;
     update();
-    CartItem item=CartItem(
+    CartItemToAdd item=CartItemToAdd(
       productId: 2,
       qty: _quantity,
       color: _colorList[_selectedColorIndex],

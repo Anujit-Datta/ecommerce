@@ -1,3 +1,5 @@
+import 'package:ecommerce/presentation/controllers/user_auth_controller.dart';
+import 'package:ecommerce/presentation/screens/email_verify_screen.dart';
 import 'package:get/get.dart';
 
 class BottomNavBarController extends GetxController{
@@ -7,7 +9,11 @@ class BottomNavBarController extends GetxController{
   get selectedNavBarItem => _selectedNavBarItem;
 
   changeSelectedItem(int index){
-    _selectedNavBarItem=index;
-    update();
+    if(index>1 && AuthController.accessToken.isEmpty){
+      Get.to(() => const EmailVerifyScreen());
+    }else{
+      _selectedNavBarItem = index;
+      update();
+    }
   }
 }

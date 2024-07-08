@@ -5,14 +5,13 @@ import 'package:ecommerce/presentation/controllers/user_auth_controller.dart';
 import 'package:ecommerce/presentation/screens/email_verify_screen.dart';
 import 'package:get/get.dart' as getx;
 import 'package:http/http.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class NetworkCaller{
   static Future<NetworkResponse> getRequest({required String url})async{
     try{
       log(url);
       final Response response = await get(Uri.parse(url),headers: {
-        'token' : Auth.accessToken
+        'token' : AuthController.accessToken
       });
       log(response.statusCode.toString());
       log(response.body);
@@ -52,8 +51,8 @@ class NetworkCaller{
       Map<String,String> header = <String,String>{
         'accept':'application/json'
       };
-      if(await Auth.isLoggedIn()){
-        header['token']=Auth.accessToken;
+      if(await AuthController.isLoggedIn()){
+        header['token']=AuthController.accessToken;
       }
       final Response response = await post(
         Uri.parse(url),
@@ -93,7 +92,7 @@ class NetworkCaller{
   }
 
   static void goToSignInScreen()async{
-    Auth.deleteData();
+    AuthController.deleteData();
     getx.Get.to(()=>const EmailVerifyScreen());
   }
 }

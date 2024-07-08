@@ -4,6 +4,8 @@ import 'package:ecommerce/presentation/controllers/new_products_controller.dart'
 import 'package:ecommerce/presentation/controllers/popular_products_controller.dart';
 import 'package:ecommerce/presentation/controllers/promotional_slider_controller.dart';
 import 'package:ecommerce/presentation/controllers/spacial_products_controller.dart';
+import 'package:ecommerce/presentation/controllers/user_auth_controller.dart';
+import 'package:ecommerce/presentation/controllers/wishlist_controller.dart';
 import 'package:ecommerce/presentation/screens/cart_screen.dart';
 import 'package:ecommerce/presentation/screens/categories_screen.dart';
 import 'package:ecommerce/presentation/screens/home_screen.dart';
@@ -13,7 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class BottomNavLayout extends StatefulWidget {
-  BottomNavLayout({super.key});
+  const BottomNavLayout({super.key});
 
   @override
   State<BottomNavLayout> createState() => _BottomNavLayoutState();
@@ -23,11 +25,15 @@ class _BottomNavLayoutState extends State<BottomNavLayout> {
   @override
   void initState() {
     super.initState();
+    AuthController.getToken();
     Get.find<PromotionalSliderController>().getPromotionalSliderList();
     Get.find<CategoriesListController>().getCategoriesList();
     Get.find<PopularProductsController>().getPopularProductsList();
     Get.find<SpecialProductsController>().getSpecialProductsList();
     Get.find<NewProductsController>().getNewProductsList();
+    if(AuthController.accessToken.isNotEmpty){
+      Get.find<WishListController>().getWishList();
+    }
   }
 
   final BottomNavBarController _bottomNavBarController=Get.find<BottomNavBarController>();

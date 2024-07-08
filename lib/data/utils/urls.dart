@@ -9,8 +9,18 @@ class Urls{
 
 
   static String productDetails(int id) => '$_baseUrl/ProductDetailsById/$id';
+  static String reviewsList(int id) => '$_baseUrl/ListReviewByProduct/$id';
+  static String createReview ='$_baseUrl/CreateProductReview';
 
   static String addToCart = '$_baseUrl/CreateCartList';
+
+
+  static String addToWishList(int id) => '$_baseUrl/CreateWishList/$id';
+  static String deleteFromWishList(int id) => '$_baseUrl/RemoveWishList/$id';
+  static String productWishList = '$_baseUrl/ProductWishList';
+
+  static String cartList = '$_baseUrl/CartList';
+  static String deleteFromCartList(int cartId) => '$_baseUrl/DeleteCartList/$cartId';
 
 
   static String emailVerify(String email) => '$_baseUrl/UserLogin/$email';
