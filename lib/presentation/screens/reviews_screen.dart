@@ -137,8 +137,14 @@ class ReviewsCount extends StatelessWidget {
               backgroundColor: AppColors.primaryColor,
               child: IconButton(
                 onPressed: ()async{
-                  bool added=await Get.to(() => CreateReviewScreen(productId: productId,));
+                  bool? added=await Get.to(() => CreateReviewScreen(productId: productId,));
                   if(added==true){
+                    Get.showSnackbar(
+                        const GetSnackBar(
+                          message: 'Review added successfully',
+                          duration: Duration(seconds: 2),
+                        )
+                    );
                     Get.find<ReviewsListController>().getReviewsList(productId);
                   }
                 },

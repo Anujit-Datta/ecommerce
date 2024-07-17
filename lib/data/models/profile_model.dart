@@ -96,7 +96,7 @@ class ProfileModel {
     data['cus_country'] = 'Bangladesh';
     data['cus_phone'] = cusPhone;
     data['cus_fax'] = cusPhone;
-    data['ship_name'] = shipName;
+    data['ship_name'] = cusName;
     data['ship_add'] = cusAdd;
     data['ship_city'] = cusCity;
     data['ship_state'] = cusState;

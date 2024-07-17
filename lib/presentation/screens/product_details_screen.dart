@@ -29,6 +29,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   void initState() {
     super.initState();
     Get.find<ProductDetailsController>().getProductDetails(widget.productId);
+    Get.find<AddToCartController>().quantityReset();
   }
 
   @override

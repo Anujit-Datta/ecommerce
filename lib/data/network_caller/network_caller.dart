@@ -49,7 +49,8 @@ class NetworkCaller{
     log(body.toString());
     try{
       Map<String,String> header = <String,String>{
-        'accept':'application/json'
+        'accept':'application/json',
+        'Content-Type':'application/json'
       };
       if(await AuthController.isLoggedIn()){
         header['token']=AuthController.accessToken;

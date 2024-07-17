@@ -42,6 +42,9 @@ class AddToCartController extends GetxController{
       update();
     }
   }
+  quantityReset(){
+    _quantity=1;
+  }
   colorListSetter(List<String> colors){
     _colorList=colors;
   }
@@ -61,7 +64,7 @@ class AddToCartController extends GetxController{
       color: _colorList[_selectedColorIndex],
       size: _sizesList[_selectedSizeIndex],
     );
-    print(item);
+
     final NetworkResponse response = await NetworkCaller.postRequest(
       url: Urls.addToCart,
       body: item.toJson(),

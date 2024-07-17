@@ -1,4 +1,5 @@
 import 'package:ecommerce/presentation/controllers/create_review_controller.dart';
+import 'package:ecommerce/presentation/widgets/snacbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -45,6 +46,11 @@ class _CreateReviewScreenState extends State<CreateReviewScreen> {
                       "rating":selectedRating,
                     };
                     await Get.find<CreateReviewController>().createReview(data).then((value) {
+                      if(value){
+                        Get.back<bool>(result: value);
+                      }else{
+                        showSnackBar(context, Get.find<CreateReviewController>().errorMessage);
+                      }
                       return value;
                     });
                   }
