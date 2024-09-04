@@ -270,8 +270,11 @@ class PromotionalCarousel extends StatelessWidget {
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(0),
-                    child: CachedImage(
-                      url: i.image!,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: CachedImage(
+                        url: i.image!,
+                      ),
                     ),
                   ),
                   Padding(

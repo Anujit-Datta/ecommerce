@@ -1,16 +1,20 @@
-# ecommerce
+Ecommerce Store App
 
-A new Flutter project.
+This is a simple Ecommerce Store App built with Flutter and REST API. The API was a demo api provided by a mentor.
 
-## Getting Started
+The app is built with the following features:
+1. [x] User Authentication
+2. [x] Otp Verification
+3. [x] Product Showcase
+4. [x] Product Details
+5. [x] Cart
+6. [x] Promotional Carousel
+7. [x] Wishlist
+8. [x] categories
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
+Bellow are some screenshots of the app:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+![Alt text]()
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+
