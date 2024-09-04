@@ -1,4 +1,6 @@
-<h1 align="center">Crafty Bay</h1>
+<div align="center">
+    <img alt="UI" src="https://github.com/Anujit-Datta/ecommerce/blob/master/assets/images/logo.svg">
+</div>
 <h3 align="center">An Ecommerce store for electronic gadget items</h3><br>
 
 
