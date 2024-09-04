@@ -16,5 +16,6 @@ The app is built with the following features:
 Bellow are some screenshots of the app:
 
 ![Alt text](assets/gtihubScreenshots/Screenshot_20240904_165618.png)![Alt text](assets/gtihubScreenshots/Screenshot_20240904_165618.png)
+<img src="assets/gtihubScreenshots/Screenshot_20240904_165618.png" alt="Landing Page" width="300",height:"500">
 
 
