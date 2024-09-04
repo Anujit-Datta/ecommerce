@@ -15,7 +15,6 @@ The app is built with the following features:
 
 Bellow are some screenshots of the app:
 
-![Alt text](assets/gtihubScreenshots/Screenshot_20240904_165618.png) ![Alt text](assets/gtihubScreenshots/Screenshot_20240904_164247.png)
-![Alt text](assets/gtihubScreenshots/Screenshot_20240904_164322.png)
+![Alt text]()
 
 
